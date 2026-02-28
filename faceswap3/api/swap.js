@@ -10,16 +10,16 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: 'FAL API Key 未配置' });
 
   try {
-    const submitRes = await fetch('https://queue.fal.run/easel-ai/advanced-face-swap', {
+    // 直接用 fal-ai/face-swap，传 base64 dataURL
+    const submitRes = await fetch('https://queue.fal.run/fal-ai/face-swap', {
       method: 'POST',
       headers: {
         'Authorization': `Key ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        face_image_0: swap_image,
-        target_image: target_image,
-        workflow_type: 'target_hair'
+        base_image_url: swap_image,
+        swap_image_url: target_image
       })
     });
 
