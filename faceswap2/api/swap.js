@@ -13,13 +13,11 @@ export default async function handler(req, res) {
   if (!swap_image || !target_image) return res.status(400).json({ error: '请提供两张图片' });
 
   try {
-    // 使用 lucataco/faceswap 模型，更稳定
-    const createRes = await fetch('https://api.replicate.com/v1/models/lucataco/faceswap/predictions', {
+    const createRes = await fetch('https://api.replicate.com/v1/models/codeplugtech/face-swap/predictions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'wait=55'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         input: {
@@ -37,7 +35,6 @@ export default async function handler(req, res) {
       return res.status(200).json({ output });
     }
 
-    // 返回 id 供前端轮询
     return res.status(200).json({ id: prediction.id, status: prediction.status });
 
   } catch (err) {
